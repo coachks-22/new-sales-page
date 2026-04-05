@@ -1,621 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VeloForge | The AI Cycling Coach Built on Elite Performance Systems</title>
-  <meta name="description" content="VeloForge is a proprietary cycling coaching platform combining adaptive structure, race-timed progression, and recovery intelligence. Start for $1." />
-  <meta property="og:title" content="VeloForge | Stop Training Blind" />
-  <meta property="og:description" content="8 proprietary systems. Adapts daily. Race-timed. Try for $1." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VeloForge • One App to Rule All Your Cycling Training</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
   <style>
-    :root {
-      --bg: #080808;
-      --bg-card: #111111;
-      --bg-elevated: #161616;
-      --accent: #FF4500;
-      --accent-hover: #FF6020;
-      --cold: #3D9EFF;
-      --text: #F5F5F3;
-      --muted: #9A9A94;
-      --border: #222222;
-      --success: #22C55E;
-    }
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      overflow-x: hidden;
-    }
-    body::before {
-      content: '';
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-      background-size: 60px 60px;
-    }
-
-    /* ANIMATIONS */
-    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
-    .reveal.in { opacity: 1; transform: translateY(0); }
-    .s1{transition-delay:.08s}.s2{transition-delay:.16s}.s3{transition-delay:.24s}
-    .s4{transition-delay:.32s}.s5{transition-delay:.40s}.s6{transition-delay:.48s}
-    .s7{transition-delay:.56s}.s8{transition-delay:.64s}
-
-    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.4)} }
-    @keyframes fadeInUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
-
-    .float-anim { animation: float 4s ease-in-out infinite; }
-    .pulse-dot { animation: pulse 2s ease-in-out infinite; }
-
-    /* BUTTONS */
-    .btn-primary {
-      background: var(--accent); color: #fff;
-      font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 16px;
-      padding: 14px 28px; border: none; border-radius: 6px;
-      cursor: pointer; text-decoration: none; display: inline-block;
-      transition: background .2s, box-shadow .2s, transform .1s;
-    }
-    .btn-primary:hover { background: var(--accent-hover); box-shadow: 0 0 24px rgba(255,69,0,.4); transform: translateY(-1px); }
-    .btn-ghost {
-      background: transparent; color: var(--text);
-      font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 16px;
-      padding: 13px 28px; border: 1px solid var(--border); border-radius: 6px;
-      cursor: pointer; text-decoration: none; display: inline-block;
-      transition: border-color .2s, color .2s;
-    }
-    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
-
-    /* TYPOGRAPHY */
-    .eyebrow {
-      font-family: 'JetBrains Mono', monospace; font-size: 11px;
-      letter-spacing: .15em; color: var(--accent); text-transform: uppercase; margin-bottom: 16px;
-    }
-    .headline {
-      font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
-      font-size: clamp(36px,5vw,58px); line-height: 1.05; color: var(--text); margin-bottom: 16px;
-    }
-
-    /* LAYOUT */
-    .section { padding: 100px 40px; position: relative; z-index: 1; }
-    .section-alt { background: #0C0C0C; }
-    .container { max-width: 1200px; margin: 0 auto; }
-    .center { text-align: center; }
-
-    /* CARDS */
-    .card {
-      background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px;
-      transition: border-color .2s, transform .2s, box-shadow .2s;
-    }
-    .card:hover { border-color: rgba(255,69,0,.4); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(255,69,0,.08); }
-
-    /* NAV */
-    #nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      padding: 0 40px; height: 64px;
-      display: flex; align-items: center; justify-content: space-between;
-      transition: background .3s, backdrop-filter .3s, border-bottom .3s;
-    }
-    #nav.scrolled {
-      background: rgba(8,8,8,.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid #1a1a1a;
-    }
-    .nav-logo { text-decoration: none; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 24px; }
-    .nav-logo .velo { color: #fff; }
-    .nav-logo .forge { color: var(--accent); }
-    .nav-links { display: flex; gap: 32px; }
-    .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color .2s; }
-    .nav-links a:hover { color: #fff; }
-
-    /* HERO */
-    #hero {
-      min-height: 100vh; display: flex; align-items: center;
-      padding: 100px 40px 80px; position: relative; z-index: 1;
-    }
-    .hero-grid {
-      max-width: 1200px; margin: 0 auto; width: 100%;
-      display: grid; grid-template-columns: 55% 43%; gap: 60px; align-items: center;
-    }
-    .hero-h1 {
-      font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
-      font-size: clamp(52px,7vw,84px); line-height: 1.0; margin-bottom: 24px;
-    }
-    .hero-h1 .white { color: var(--text); display: block; }
-    .hero-h1 .orange { color: var(--accent); display: block; }
-    .hero-sub { color: var(--muted); font-size: 18px; line-height: 1.7; margin-bottom: 36px; max-width: 480px; }
-    .cta-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 36px; }
-    .trust-row { display: flex; flex-wrap: wrap; gap: 0; }
-    .trust-item { display: flex; align-items: center; gap: 8px; }
-    .trust-item:not(:last-child) { padding-right: 20px; margin-right: 20px; border-right: 1px solid var(--border); }
-    .trust-star { color: var(--accent); font-size: 12px; }
-    .trust-text { color: var(--muted); font-size: 13px; font-family: 'JetBrains Mono', monospace; }
-
-    /* DASHBOARD CARD */
-    .dash-card {
-      background: #0E0E0E; border: 1px solid #252525; border-radius: 16px; padding: 28px;
-      box-shadow: 0 32px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,69,0,.06);
-    }
-    .dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-    .dash-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: .15em; }
-    .live-badge { display: flex; align-items: center; gap: 6px; }
-    .live-text { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--success); }
-    .dash-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); }
-    .load-value { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 72px; line-height: 1; color: var(--text); }
-    .load-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
-    .divider { height: 1px; background: var(--border); margin: 16px 0; }
-    .dash-row { margin-bottom: 16px; }
-    .dash-val { font-size: 16px; font-weight: 600; color: var(--accent); }
-    .dash-val-white { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 10px; }
-    .progress-track { background: #1a1a1a; border-radius: 4px; height: 6px; overflow: hidden; }
-    .progress-fill {
-      height: 100%; border-radius: 4px;
-      background: linear-gradient(90deg, var(--accent), #FF7340);
-      width: 0%; transition: width 1.2s ease .3s;
-    }
-    .spark-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 4px; text-align: center; letter-spacing: .1em; }
-
-    /* PROBLEM */
-    .pain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 16px; }
-    .pain-card { background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0; padding: 24px; }
-    .pain-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 20px; margin-bottom: 8px; }
-    .pain-desc { color: var(--muted); font-size: 14px; line-height: 1.6; }
-
-    /* SYSTEMS */
-    .sys-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
-    .sys-icon { font-size: 28px; color: var(--accent); margin-bottom: 12px; display: block; }
-    .sys-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 20px; color: var(--accent); margin-bottom: 8px; }
-    .sys-what { font-size: 14px; color: var(--text); margin-bottom: 6px; line-height: 1.5; }
-    .sys-outcome { font-size: 13px; color: var(--muted); font-style: italic; }
-
-    /* STEPS */
-    .steps-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 40px; }
-    .step-num { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 120px; line-height: 1; color: rgba(255,69,0,.08); margin-bottom: -20px; letter-spacing: -.04em; }
-    .step-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 28px; }
-    .step-label { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 24px; color: var(--accent); margin-bottom: 12px; }
-    .step-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 22px; margin-bottom: 12px; }
-    .step-desc { color: var(--muted); font-size: 15px; line-height: 1.7; }
-
-    /* PROOF */
-    .proof-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-bottom: 60px; }
-    .proof-card { background: var(--bg-card); border: 1px solid var(--border); border-top: 2px solid var(--accent); border-radius: 12px; padding: 24px; }
-    .proof-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 22px; color: var(--accent); margin-bottom: 8px; }
-    .cohort-badge {
-      display: inline-flex; align-items: center; gap: 10px;
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 100px; padding: 10px 20px; margin-bottom: 48px;
-    }
-    .cohort-text { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text); }
-
-    /* TABLE */
-    .table-wrap { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--border); font-size: 14px; }
-    th { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .1em; color: var(--muted); text-transform: uppercase; }
-    .vf-head { background: var(--accent) !important; color: #fff !important; font-family: 'Barlow Condensed', sans-serif !important; font-size: 16px !important; font-weight: 700; letter-spacing: .05em; }
-    .vf-col { background: rgba(255,69,0,.08); color: var(--accent) !important; font-weight: 600; }
-    td:first-child { color: var(--text); font-weight: 500; }
-    td:not(:first-child) { color: var(--muted); }
-
-    /* OFFER */
-    .offer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; max-width: 1000px; margin: 0 auto; }
-    .check-item { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 18px; }
-    .check-icon { color: var(--success); font-size: 18px; margin-top: 1px; flex-shrink: 0; }
-    .check-name { font-weight: 600; color: var(--accent); }
-    .check-desc { color: var(--muted); font-size: 14px; }
-    .price-card {
-      background: var(--bg-card); border: 1px solid rgba(255,69,0,.4);
-      border-radius: 16px; padding: 36px;
-      box-shadow: 0 0 40px rgba(255,69,0,.06);
-    }
-    .price-tag { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 88px; line-height: 1; color: var(--text); margin-bottom: 4px; }
-    .price-sub { color: var(--muted); font-size: 16px; margin-bottom: 8px; }
-    .price-then { color: var(--muted); font-size: 14px; margin-bottom: 32px; }
-    .price-risk { margin-top: 16px; text-align: center; color: var(--muted); font-size: 13px; font-style: italic; line-height: 1.6; }
-    .price-secure { margin-top: 16px; text-align: center; color: var(--muted); font-size: 12px; }
-
-    /* FAQ */
-    .faq-item { border-bottom: 1px solid var(--border); }
-    .faq-btn {
-      width: 100%; background: none; border: none; color: var(--text);
-      font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500;
-      padding: 20px 0; text-align: left; cursor: pointer;
-      display: flex; justify-content: space-between; align-items: center; gap: 16px;
-    }
-    .faq-btn:hover { color: var(--accent); }
-    .faq-toggle { font-size: 22px; color: var(--accent); flex-shrink: 0; transition: transform .2s; }
-    .faq-body { overflow: hidden; max-height: 0; opacity: 0; transition: max-height .35s ease, opacity .35s ease; }
-    .faq-body.open { max-height: 200px; opacity: 1; }
-    .faq-body p { padding-bottom: 20px; color: var(--muted); line-height: 1.7; font-size: 15px; }
-
-    /* FINAL CTA */
-    #final-cta { padding: 120px 40px; text-align: center; position: relative; overflow: hidden; z-index: 1; }
-    #final-cta::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(255,69,0,.08) 0%, transparent 70%); pointer-events: none; }
-    .final-h { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: clamp(44px,6vw,72px); line-height: 1.05; margin-bottom: 24px; }
-
-    /* FOOTER */
-    footer {
-      background: #050505; border-top: 1px solid var(--border);
-      padding: 48px 40px 32px; position: relative; z-index: 1;
-    }
-    .footer-main {
-      max-width: 1200px; margin: 0 auto;
-      display: flex; justify-content: space-between; align-items: flex-start;
-      flex-wrap: wrap; gap: 32px; margin-bottom: 32px;
-    }
-    .footer-logo { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 22px; margin-bottom: 8px; text-decoration: none; display: block; }
-    .footer-tagline { color: var(--muted); font-size: 14px; max-width: 280px; }
-    .footer-links { display: flex; gap: 28px; flex-wrap: wrap; align-items: center; }
-    .footer-links a { color: var(--muted); font-size: 14px; text-decoration: none; transition: color .2s; }
-    .footer-links a:hover { color: #fff; }
-    .footer-copy { color: var(--muted); font-size: 13px; }
-    .footer-divider { height: 1px; background: #161616; margin-bottom: 20px; max-width: 1200px; margin-left: auto; margin-right: auto; }
-    .footer-garmin { max-width: 1200px; margin: 0 auto; color: #555; font-size: 12px; line-height: 1.7; }
-    .footer-garmin a { color: var(--accent); text-decoration: none; }
-
-    /* FLOATING BTN */
-    #float-btn {
-      position: fixed; bottom: 28px; right: 28px; z-index: 200;
-      font-size: 14px; padding: 12px 22px; border-radius: 100px;
-      box-shadow: 0 8px 32px rgba(255,69,0,.4);
-      opacity: 0; transform: translateY(12px);
-      transition: opacity .3s, transform .3s;
-      pointer-events: none;
-    }
-    #float-btn.visible { opacity: 1; transform: translateY(0); pointer-events: all; }
-
-    /* RESPONSIVE */
-    @media (max-width: 900px) {
-      .sys-grid { grid-template-columns: 1fr 1fr; }
-    }
-    @media (max-width: 768px) {
-      .hero-grid { grid-template-columns: 1fr; }
-      .dash-card { display: none; }
-      .steps-grid { grid-template-columns: 1fr; }
-      .proof-grid { grid-template-columns: 1fr; }
-      .offer-grid { grid-template-columns: 1fr; }
-      .sys-grid { grid-template-columns: 1fr 1fr; }
-      .nav-links { display: none; }
-      .section { padding: 70px 24px; }
-      #hero { padding: 100px 24px 70px; }
-      footer { padding: 40px 24px 28px; }
-    }
-    @media (max-width: 480px) {
-      .sys-grid { grid-template-columns: 1fr; }
-    }
+    body { font-family: system-ui, -apple-system, sans-serif; }
+    .hero-bg { background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url('https://picsum.photos/id/1015/2000/1200') center/cover no-repeat; }
   </style>
 </head>
-<body>
+<body class="bg-zinc-950 text-white">
 
-<!-- NAV -->
-<nav id="nav">
-  <a href="/" class="nav-logo"><span class="velo">VELO</span><span class="forge">FORGE</span></a>
-  <div class="nav-links">
-    <a href="#system">System</a>
-    <a href="#how-it-works">How It Works</a>
-    <a href="#proof">Proof</a>
-    <a href="#faq">FAQ</a>
-  </div>
-  <a href="https://www.veloforge.app/trial" class="btn-primary" style="font-size:14px;padding:10px 20px;">Start $1 Trial</a>
-</nav>
-
-<!-- HERO -->
-<section id="hero">
-  <div class="hero-grid">
-    <div>
-      <div class="eyebrow reveal">Proprietary Cycling Performance System</div>
-      <h1 class="hero-h1 reveal s1">
-        <span class="white">Stop Training</span>
-        <span class="white">Blind.</span>
-        <span class="orange">Start Performing.</span>
+  <!-- HERO -->
+  <section class="hero-bg min-h-screen flex items-center">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+      <div class="flex justify-center gap-8 mb-8">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Garmin_logo.svg/2560px-Garmin_logo.svg.png" alt="Garmin" class="h-10">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/WHOOP_logo.svg/2560px-WHOOP_logo.svg.png" alt="WHOOP" class="h-10">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Strava_Logo.svg/2560px-Strava_Logo.svg.png" alt="Strava" class="h-10">
+      </div>
+      <h1 class="text-6xl md:text-7xl font-bold tracking-tighter leading-none mb-6">
+        One App.<br>All Your Data.<br>AI That Actually Coaches You.
       </h1>
-      <p class="hero-sub reveal s2">VeloForge is a proprietary coaching architecture — not another AI app. Adaptive structure, race-timed progression, and recovery-informed daily decisions. Built for cyclists who train with serious intent.</p>
-      <div class="cta-row reveal s3">
-        <a href="https://www.veloforge.app/trial" class="btn-primary" style="font-size:17px;padding:16px 32px;">Start $1 Trial →</a>
-        <a href="https://www.veloforge.app/vsl" class="btn-ghost" style="font-size:17px;padding:16px 32px;">Watch System Overview</a>
-      </div>
-      <div class="trust-row reveal s4">
-        <div class="trust-item"><span class="trust-star">✦</span><span class="trust-text">Eastern Bloc Periodization</span></div>
-        <div class="trust-item"><span class="trust-star">✦</span><span class="trust-text">8 Proprietary Systems</span></div>
-        <div class="trust-item"><span class="trust-star">✦</span><span class="trust-text">Adapts Daily</span></div>
-      </div>
+      <p class="text-2xl md:text-3xl text-zinc-300 max-w-3xl mx-auto mb-10">
+        Garmin + WHOOP + Strava integrated. Real AI coaching, training plans, nutrition, and recovery — no more switching apps.
+      </p>
+      <a href="#" class="inline-block bg-orange-500 hover:bg-orange-600 text-white text-2xl font-semibold px-12 py-6 rounded-3xl transition-all">Start Free 14-Day Trial →</a>
+      <p class="text-zinc-400 mt-6">No credit card • Cancel anytime</p>
     </div>
-    <div class="dash-card float-anim reveal s2" id="dashCard">
-      <div class="dash-header">
-        <span class="dash-label">VELOFORGE SYSTEM™</span>
-        <div class="live-badge">
-          <div class="dash-dot pulse-dot"></div>
-          <span class="live-text">LIVE</span>
+  </section>
+
+  <!-- TRUST BAR -->
+  <div class="bg-black py-8 border-b border-zinc-800">
+    <div class="max-w-7xl mx-auto px-6 flex flex-wrap justify-center items-center gap-12 text-xl opacity-75">
+      <div>Garmin</div>
+      <div>WHOOP</div>
+      <div>Strava</div>
+      <div>TrainingPeaks</div>
+    </div>
+  </div>
+
+  <!-- PILLARS WITH ICONS -->
+  <section class="py-20 bg-zinc-900">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="text-4xl font-bold text-center mb-16">Why cyclists are switching to VeloForge</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="bg-zinc-950 p-8 rounded-3xl border border-zinc-800">
+          <i class="fas fa-cubes text-4xl text-orange-400 mb-4"></i>
+          <h3 class="text-orange-400 text-xl font-semibold mb-3">ForgeBlocks™</h3>
+          <p class="text-zinc-400">Training phases that automatically evolve with your race calendar.</p>
         </div>
-      </div>
-      <div style="margin-bottom:20px">
-        <div class="dash-label" style="margin-bottom:4px">LOAD INDEX™</div>
-        <div class="load-value" id="loadCounter">0</div>
-        <div class="load-sub">Moderate-High · Cap Hard Volume Today</div>
-      </div>
-      <div class="divider"></div>
-      <div class="dash-row">
-        <div class="dash-label" style="margin-bottom:6px">TODAY'S DIRECTION</div>
-        <div class="dash-val">Push Quality, Cap Volume</div>
-      </div>
-      <div class="dash-row">
-        <div class="dash-label" style="margin-bottom:8px">RACEPHASE™ STATUS</div>
-        <div class="dash-val-white">Build → Sharpen Transition</div>
-        <div class="progress-track">
-          <div class="progress-fill" id="progressFill"></div>
+        <div class="bg-zinc-950 p-8 rounded-3xl border border-zinc-800">
+          <i class="fas fa-chart-bar text-4xl text-orange-400 mb-4"></i>
+          <h3 class="text-orange-400 text-xl font-semibold mb-3">Load Index™</h3>
+          <p class="text-zinc-400">The smarter way to see real fatigue — before it kills your performance.</p>
         </div>
-      </div>
-      <div>
-        <svg viewBox="0 0 260 50" style="width:100%;display:block">
-          <defs>
-            <linearGradient id="sg" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0%" stop-color="#FF4500" stop-opacity="0.3"/>
-              <stop offset="100%" stop-color="#FF4500" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
-          <path d="M0,35 L18,30 L36,32 L54,22 L72,26 L90,18 L108,24 L126,14 L144,20 L162,10 L180,16 L198,8 L216,14 L234,6 L260,10" fill="none" stroke="#FF4500" stroke-width="2" stroke-linecap="round"/>
-          <path d="M0,35 L18,30 L36,32 L54,22 L72,26 L90,18 L108,24 L126,14 L144,20 L162,10 L180,16 L198,8 L216,14 L234,6 L260,10 L260,50 L0,50Z" fill="url(#sg)"/>
-        </svg>
-        <div class="spark-label">14-DAY LOAD TREND ↑</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PROBLEM -->
-<section class="section section-alt" id="system">
-  <div class="container">
-    <div class="eyebrow center reveal">The Problem</div>
-    <h2 class="headline center reveal s1">You're training hard.<br>The results don't match the effort.</h2>
-    <p class="center reveal s2" style="color:var(--muted);font-size:17px;margin-bottom:60px">It's not your effort. It's your structure.</p>
-    <div class="pain-grid">
-      <div class="pain-card reveal s1"><div class="pain-title">Progress Feels Random</div><div class="pain-desc">You put in the hours but FTP stalls and race day feels like a coin flip.</div></div>
-      <div class="pain-card reveal s2"><div class="pain-title">Plans Don't Adapt</div><div class="pain-desc">Static programs stay fixed while your sleep, stress, and readiness vary daily.</div></div>
-      <div class="pain-card reveal s3"><div class="pain-title">Data Without Direction</div><div class="pain-desc">Power files and HRV data grow — but clear daily decisions don't follow.</div></div>
-      <div class="pain-card reveal s4"><div class="pain-title">Junk Volume Creep</div><div class="pain-desc">Easy rides pile up. Hard sessions lose their edge. The training signal blurs.</div></div>
-      <div class="pain-card reveal s5"><div class="pain-title">Fueling &amp; Strength Are Guesswork</div><div class="pain-desc">Nutrition and gym work rarely align with actual ride demands.</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- SOLUTION -->
-<section class="section">
-  <div class="container">
-    <div class="eyebrow center reveal">The System</div>
-    <h2 class="headline center reveal s1">One system. Eight proprietary engines.<br>Zero guesswork.</h2>
-    <p class="center reveal s2" style="color:var(--muted);font-size:17px;margin-bottom:60px">Each component solves a specific performance problem.</p>
-    <div class="sys-grid" id="sysGrid">
-      <div class="card reveal s1"><span class="sys-icon">⬡</span><div class="sys-name">ForgeBlocks™</div><div class="sys-what">Race-timed training phases that evolve with your timeline</div><div class="sys-outcome">You peak closer to key events — automatically</div></div>
-      <div class="card reveal s2"><span class="sys-icon">◈</span><div class="sys-name">Load Index™</div><div class="sys-what">A smarter fatigue signal combining volume and intensity</div><div class="sys-outcome">You know exactly when to push, hold, or recover</div></div>
-      <div class="card reveal s3"><span class="sys-icon">⊕</span><div class="sys-name">Adaptive Volume Engine™</div><div class="sys-what">Hard-workload cap to keep intensity productive</div><div class="sys-outcome">You build fitness faster without chronic fatigue</div></div>
-      <div class="card reveal s4"><span class="sys-icon">◎</span><div class="sys-name">Recovery Intelligence™</div><div class="sys-what">Daily adjustments from HRV, sleep, and readiness data</div><div class="sys-outcome">You protect consistency without losing direction</div></div>
-      <div class="card reveal s1"><span class="sys-icon">◉</span><div class="sys-name">ZoneLock™</div><div class="sys-what">Precision targeting based on your actual power curve</div><div class="sys-outcome">Every hard interval hits its exact physiological target</div></div>
-      <div class="card reveal s2"><span class="sys-icon">▷</span><div class="sys-name">RacePhase™ Timing</div><div class="sys-what">Automatic phase shifts toward race-readiness</div><div class="sys-outcome">Your prep matches race demands, not calendar noise</div></div>
-      <div class="card reveal s3"><span class="sys-icon">◆</span><div class="sys-name">FuelSync™</div><div class="sys-what">Workload-matched fueling guidance in your training flow</div><div class="sys-outcome">You arrive fueled for quality work and recover faster</div></div>
-      <div class="card reveal s4"><span class="sys-icon">◫</span><div class="sys-name">StrengthSync™</div><div class="sys-what">Cycling-specific strength integrated into the main plan</div><div class="sys-outcome">You gain durability without sabotaging key rides</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section class="section section-alt" id="how-it-works">
-  <div class="container">
-    <div class="eyebrow center reveal">The Process</div>
-    <h2 class="headline center reveal s1" style="margin-bottom:60px">Up and adapting in three steps.</h2>
-    <div class="steps-grid">
-      <div class="reveal s1" style="text-align:center">
-        <div class="step-num">01</div>
-        <div class="step-card"><div class="step-label">Step 1</div><div class="step-title">Connect Your Inputs</div><div class="step-desc">Set your goals, race timeline, and available weekly training hours. The system maps your full season structure from day one.</div></div>
-      </div>
-      <div class="reveal s2" style="text-align:center">
-        <div class="step-num">02</div>
-        <div class="step-card"><div class="step-label">Step 2</div><div class="step-title">Get Your ForgeBlocks™</div><div class="step-desc">Receive your phased training architecture and daily execution guidance. Each phase is automatically calibrated to your timeline and level.</div></div>
-      </div>
-      <div class="reveal s3" style="text-align:center">
-        <div class="step-num">03</div>
-        <div class="step-card"><div class="step-label">Step 3</div><div class="step-title">Train and Adapt Daily</div><div class="step-desc">Recovery Intelligence™ updates your direction every morning. You get a clear decision — not a static plan that ignores your reality.</div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PROOF -->
-<section class="section" id="proof">
-  <div class="container">
-    <div class="eyebrow center reveal">Early Traction</div>
-    <h2 class="headline center reveal s1">Built for the rider who trains with intent.</h2>
-    <div class="center reveal s2" style="margin-bottom:48px">
-      <div class="cohort-badge">
-        <div class="dash-dot pulse-dot"></div>
-        <span class="cohort-text">Founding Cohort: <strong style="color:var(--accent)">247 riders</strong></span>
-      </div>
-    </div>
-    <div class="proof-grid">
-      <div class="proof-card reveal s1"><div class="proof-title">FTP Progression</div><div style="color:var(--muted);font-size:14px;line-height:1.6">Tracked across 8–14 week ForgeBlocks™ cycles with consistent structure.</div></div>
-      <div class="proof-card reveal s2"><div class="proof-title">Recovery Tested</div><div style="color:var(--muted);font-size:14px;line-height:1.6">Recovery Intelligence™ validated across variable sleep and HRV ranges.</div></div>
-      <div class="proof-card reveal s3"><div class="proof-title">Race-Ready Athletes</div><div style="color:var(--muted);font-size:14px;line-height:1.6">RacePhase™ timing tested across criterium, TT, and gran fondo events.</div></div>
-    </div>
-    <h3 class="reveal" style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:28px;margin-bottom:24px;text-align:center">How VeloForge Compares</h3>
-    <div class="table-wrap reveal">
-      <table>
-        <thead>
-          <tr>
-            <th>Capability</th><th>Generic AI App</th><th>Static Plan</th><th>Human Coach</th><th class="vf-head">VeloForge</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Daily Adaptation</td><td>Low</td><td>None</td><td>Medium</td><td class="vf-col">✓✓ High</td></tr>
-          <tr><td>Race Timing Logic</td><td>Low</td><td>Low</td><td>Medium</td><td class="vf-col">✓✓ High</td></tr>
-          <tr><td>Workload Control</td><td>Low</td><td>Low</td><td>High</td><td class="vf-col">✓✓ High</td></tr>
-          <tr><td>Fuel Guidance</td><td>Low</td><td>None</td><td>Low</td><td class="vf-col">✓✓ High</td></tr>
-          <tr><td>Training Clarity</td><td>Medium</td><td>Medium</td><td>High</td><td class="vf-col">✓✓ High</td></tr>
-          <tr><td>Value for Serious Riders</td><td>Medium</td><td>Medium</td><td>Low</td><td class="vf-col">✓✓ High</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<!-- OFFER -->
-<section class="section section-alt">
-  <div class="container">
-    <div class="eyebrow center reveal">What You Get</div>
-    <h2 class="headline center reveal s1" style="margin-bottom:60px">Everything you need.<br>Nothing you don't.</h2>
-    <div class="offer-grid">
-      <div class="reveal">
-        <div class="check-item"><span class="check-icon">✓</span><div><span class="check-name">ForgeBlocks™</span><span class="check-desc"> — Race-timed training phases</span></div></div>
-        <div class="check-item"><span class="check-icon">✓</span><div><span class="check-name">Load Index™</span><span class="check-desc"> — Smarter fatigue signal</span></div></div>
-        <div class="check-item"><span class="check-icon">✓</span><div><span class="check-name">Adaptive Volume Engine™</span><span class="check-desc"> — Hard-workload control</span></div></div>
-        <div class="check-item"><span class="check-icon">✓</span><div><span class="check-name">Recovery Intelligence™</span><span class="check-desc"> — Daily HRV-based adjustments</span></div></div>
-        <div class="check-item"><span class="check-icon">✓</span><div><span class="check-name">ZoneLock™</span><span class="check-desc"> — Precision interval targeting</span></div></div>
-        <div class="check-item"><span class="check-icon">✓</span><div><span class="check-name">RacePhase™ Timing</span><span class="check-desc"> — Automatic phase shifts</span></div></div>
-        <div class="check-item"><span class="check-icon">✓</span><div><span class="check-name">FuelSync™</span><span class="check-desc"> — Workload-matched fueling</span></div></div>
-        <div class="check-item"><span class="check-icon">✓</span><div><span class="check-name">StrengthSync™</span><span class="check-desc"> — Integrated strength planning</span></div></div>
-      </div>
-      <div class="reveal s1">
-        <div class="price-card">
-          <div class="eyebrow">Founding Member Rate</div>
-          <div class="price-tag">$1</div>
-          <div class="price-sub">for your first 7 days</div>
-          <div class="price-then">Then $29/month. Cancel anytime.</div>
-          <a href="https://www.veloforge.app/trial" class="btn-primary" style="display:block;text-align:center;font-size:17px;padding:18px;width:100%">Start $1 Trial — Full Access →</a>
-          <div class="price-risk">If VeloForge doesn't improve your training clarity in your first cycle, cancel before day 7. You risked $1.</div>
-          <div class="price-secure">🔒 Secure checkout</div>
+        <div class="bg-zinc-950 p-8 rounded-3xl border border-zinc-800">
+          <i class="fas fa-heartbeat text-4xl text-orange-400 mb-4"></i>
+          <h3 class="text-orange-400 text-xl font-semibold mb-3">Recovery Intelligence™</h3>
+          <p class="text-zinc-400">Daily adjustments based on your actual sleep, HRV, and readiness.</p>
+        </div>
+        <div class="bg-zinc-950 p-8 rounded-3xl border border-zinc-800">
+          <i class="fas fa-sliders-h text-4xl text-orange-400 mb-4"></i>
+          <h3 class="text-orange-400 text-xl font-semibold mb-3">Adaptive Volume Engine™</h3>
+          <p class="text-zinc-400">You do just enough hard work to improve — never enough to burn out.</p>
+        </div>
+        <div class="bg-zinc-950 p-8 rounded-3xl border border-zinc-800">
+          <i class="fas fa-lock text-4xl text-orange-400 mb-4"></i>
+          <h3 class="text-orange-400 text-xl font-semibold mb-3">ZoneLock™</h3>
+          <p class="text-zinc-400">Every interval hits the exact physiological target it’s supposed to.</p>
+        </div>
+        <div class="bg-zinc-950 p-8 rounded-3xl border border-zinc-800">
+          <i class="fas fa-utensils text-4xl text-orange-400 mb-4"></i>
+          <h3 class="text-orange-400 text-xl font-semibold mb-3">FuelSync™</h3>
+          <p class="text-zinc-400">Nutrition that matches your training — no more guessing calories or macros.</p>
+        </div>
+        <div class="bg-zinc-950 p-8 rounded-3xl border border-zinc-800">
+          <i class="fas fa-dumbbell text-4xl text-orange-400 mb-4"></i>
+          <h3 class="text-orange-400 text-xl font-semibold mb-3">StrengthSync™</h3>
+          <p class="text-zinc-400">Strength training that actually improves cycling — not interferes with it.</p>
+        </div>
+        <div class="bg-zinc-950 p-8 rounded-3xl border border-zinc-800">
+          <i class="fas fa-trophy text-4xl text-orange-400 mb-4"></i>
+          <h3 class="text-orange-400 text-xl font-semibold mb-3">RacePhase™</h3>
+          <p class="text-zinc-400">Your training structure automatically shifts when it matters most.</p>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- FAQ -->
-<section class="section" id="faq">
-  <div class="container" style="max-width:720px">
-    <div class="eyebrow center reveal">FAQ</div>
-    <h2 class="headline center reveal s1" style="margin-bottom:48px">Common Questions</h2>
-    <div class="reveal" id="faqList">
-      <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(0)">Is this just another AI workout app?<span class="faq-toggle" id="ft0">+</span></button>
-        <div class="faq-body open" id="fb0"><p>No. VeloForge is a proprietary performance system built for structured cyclists, not generic fitness prompts. Every component is designed around specific physiological outcomes.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(1)">How is this different from static cycling plans?<span class="faq-toggle" id="ft1">+</span></button>
-        <div class="faq-body" id="fb1"><p>Static plans stay fixed regardless of how you feel or recover. VeloForge adjusts daily with your recovery trends, race timeline, and execution data.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(2)">Does it adapt if my recovery is poor?<span class="faq-toggle" id="ft2">+</span></button>
-        <div class="faq-body" id="fb2"><p>Yes. Recovery Intelligence™ updates recommendations every morning so you protect consistency without losing training direction — even on bad weeks.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(3)">Will this help with racing?<span class="faq-toggle" id="ft3">+</span></button>
-        <div class="faq-body" id="fb3"><p>Yes. RacePhase™ Timing and ZoneLock™ training prioritize race-readiness. Your structure shifts automatically as your event approaches.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(4)">What if I only train 5–8 hours per week?<span class="faq-toggle" id="ft4">+</span></button>
-        <div class="faq-body" id="fb4"><p>The system is designed to prioritize the highest-value work for limited hours while intelligently controlling fatigue. Less time, better results.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(5)">Is this for older athletes too?<span class="faq-toggle" id="ft5">+</span></button>
-        <div class="faq-body" id="fb5"><p>Yes. Adaptive workload and recovery-aware guidance are especially valuable when recovery variability increases with age.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(6)">How does fueling work?<span class="faq-toggle" id="ft6">+</span></button>
-        <div class="faq-body" id="fb6"><p>FuelSync™ pairs fueling prompts with your workload context so nutrition timing supports execution and recovery — automatically calibrated to each session.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(7)">Can I use this with existing tools?<span class="faq-toggle" id="ft7">+</span></button>
-        <div class="faq-body" id="fb7"><p>Yes. VeloForge complements your current cycling data stack — Garmin, Wahoo, TrainingPeaks — while simplifying daily decisions.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
+  <!-- FINAL CTA -->
+  <section class="py-24 bg-gradient-to-b from-zinc-900 to-black text-center">
+    <h2 class="text-5xl font-bold mb-6">Ready to train smarter?</h2>
+    <p class="text-2xl text-zinc-300 mb-10">Join the cyclists who finally have one app that does it all.</p>
+    <a href="#" class="inline-block bg-orange-500 hover:bg-orange-600 text-white text-3xl font-semibold px-16 py-8 rounded-3xl">Start Free 14-Day Trial</a>
+  </section>
 
-<!-- FINAL CTA -->
-<section id="final-cta">
-  <div style="position:relative;z-index:1;max-width:700px;margin:0 auto">
-    <h2 class="final-h reveal">
-      <span style="color:var(--text);display:block">Train With More Clarity.</span>
-      <span style="color:var(--accent);display:block">Race With More Confidence.</span>
-    </h2>
-    <p class="reveal s1" style="color:var(--muted);font-size:18px;margin-bottom:40px;line-height:1.7">Replace guesswork with adaptive structure, race-timed progression, and daily actionable guidance.</p>
-    <div class="reveal s2" style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
-      <a href="https://www.veloforge.app/trial" class="btn-primary" style="font-size:18px;padding:18px 40px">Start $1 Trial →</a>
-      <a href="https://www.veloforge.app/blueprint" class="btn-ghost" style="font-size:18px;padding:18px 40px">Get Free Starter Plan</a>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-main">
-    <div>
-      <a href="/" class="footer-logo"><span style="color:#fff">VELO</span><span style="color:var(--accent)">FORGE</span></a>
-      <div class="footer-tagline">The performance system for cyclists who train with intent.</div>
-    </div>
-    <div class="footer-links">
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="terms.html">Terms of Service</a>
-      <a href="mailto:coachks@gmail.com">Contact</a>
-      <a href="https://www.veloforge.app/vsl">VSL</a>
-      <a href="https://www.veloforge.app/checkout">Checkout</a>
-    </div>
-    <div class="footer-copy">© 2026 VeloForge. All rights reserved.</div>
-  </div>
-  <div class="footer-divider"></div>
-  <div class="footer-garmin">
-    VeloForge uses Garmin Connect IQ data solely to deliver personalized training guidance. Data processed on-device is not transmitted to third-party servers except as required to provide coaching services. Your data is never sold. <a href="privacy.html">Privacy Policy</a>
-  </div>
-</footer>
-
-<!-- FLOATING BTN -->
-<a href="https://www.veloforge.app/trial" class="btn-primary" id="float-btn">Start $1 Trial →</a>
-
-<script>
-  // Nav scroll
-  window.addEventListener('scroll', () => {
-    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
-    document.getElementById('float-btn').classList.toggle('visible', window.scrollY > 600);
-  });
-
-  // Reveal on scroll
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('in');
-        if (e.target.id === 'dashCard') {
-          // Count up load index
-          let c = 0;
-          const iv = setInterval(() => {
-            c += 2; if (c >= 86) { c = 86; clearInterval(iv); }
-            document.getElementById('loadCounter').textContent = c;
-          }, 30);
-          // Progress bar
-          setTimeout(() => { document.getElementById('progressFill').style.width = '65%'; }, 300);
-        }
-      }
-    });
-  }, { threshold: 0.15 });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-  observer.observe(document.getElementById('dashCard'));
-
-  // FAQ
-  function toggleFaq(i) {
-    const body = document.getElementById('fb' + i);
-    const toggle = document.getElementById('ft' + i);
-    const isOpen = body.classList.contains('open');
-    document.querySelectorAll('.faq-body').forEach(b => b.classList.remove('open'));
-    document.querySelectorAll('.faq-toggle').forEach(t => { t.textContent = '+'; t.style.transform = 'rotate(0deg)'; });
-    if (!isOpen) {
-      body.classList.add('open');
-      toggle.textContent = '+';
-      toggle.style.transform = 'rotate(45deg)';
-    }
-  }
-</script>
+  <footer class="bg-black py-12 text-center text-zinc-500 text-sm">
+    <p>© 2026 VeloForge • <a href="/privacy" class="hover:text-white">Privacy</a> • <a href="/terms" class="hover:text-white">Terms</a></p>
+  </footer>
 </body>
 </html>
