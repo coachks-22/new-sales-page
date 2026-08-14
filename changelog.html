@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Changelog — VeloForge</title>
+  <meta name="description" content="VeloForge product changelog: training, recovery, FuelSync, Strava, and coaching updates. Shipped frequently.">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://veloforge.app/changelog">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    a { color: #34d399; }
+    a:hover { color: #6ee7b7; text-decoration: underline; }
+    .entry { border-left: 2px solid #27272a; padding-left: 1.25rem; margin-bottom: 2rem; }
+    .entry h2 { color: #fff; font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem; }
+    .entry ul { list-style: disc; padding-left: 1.25rem; }
+    .entry li { margin-bottom: 0.4rem; color: #d4d4d8; }
+  </style>
+</head>
+<body class="bg-zinc-950 text-zinc-200">
+  <header class="border-b border-zinc-800">
+    <div class="max-w-4xl mx-auto px-6 py-5 flex items-center justify-between">
+      <a href="/" class="text-white font-bold tracking-wide text-lg no-underline hover:no-underline">
+        Velo<span class="text-emerald-400">Forge</span>
+      </a>
+      <nav class="flex gap-4 text-sm text-zinc-400">
+        <a href="/faq" class="hover:text-white no-underline">FAQ</a>
+        <a href="/changelog" class="text-white no-underline">Changelog</a>
+        <a href="/" class="hover:text-white no-underline">Home</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-6 py-12 leading-relaxed">
+    <h1 class="text-4xl font-bold mb-3 text-white">Changelog</h1>
+    <p class="text-sm text-zinc-500 mb-4">Last updated: August 14, 2026</p>
+    <p class="text-zinc-400 mb-10 max-w-2xl">
+      Public record of what we’re shipping. Grouped for humans; details come from the product git history.
+      This is not every commit — it’s the meaningful product story. We update this as we ship.
+    </p>
+
+    <div class="entry">
+      <h2>August 14, 2026</h2>
+      <ul>
+        <li><strong class="text-white">Public TestFlight</strong> open for early testers — <a href="https://testflight.apple.com/join/yHbes4j4">testflight.apple.com/join/yHbes4j4</a></li>
+        <li><strong class="text-white">Onboarding connectors</strong> — Strava and Wahoo Connect now use the same real OAuth path as Data &amp; Import (onboarding buttons were stubs)</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <h2>August 11–13, 2026</h2>
+      <ul>
+        <li><strong class="text-white">TestFlight 1.0.0</strong> (build 260811192600) — Intervals.icu workouts now land on the calendar correctly</li>
+        <li>iOS minimum raised to 15.0</li>
+        <li><strong class="text-white">Heat training notes</strong> — lead magnet live at <a href="https://join.veloforge.app/heat">join.veloforge.app/heat</a> for athletes doing serious work in the heat</li>
+        <li><strong class="text-white">Find layer</strong> — public <code class="text-zinc-300">/robots.txt</code>, <code class="text-zinc-300">/sitemap.xml</code>, <code class="text-zinc-300">/llms-full.txt</code>, and join.veloforge.app/llms.txt so humans and AIs can find accurate product truth</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <h2>August 2026</h2>
+      <ul>
+        <li><strong class="text-white">Step-by-step athlete onboarding</strong> — new athletes walk one clear screen at a time (not a single long form): profile, goals, availability, then data links. Built to feel simple for first open; existing athletes keep full Athlete / Coach Setup.</li>
+        <li><strong class="text-white">Dual-primary data sources</strong> — pick <em>one</em> training source (Strava / Wahoo / Intervals / manual) for rides, power, session HR, and load, and <em>one</em> recovery source (e.g. Apple Health) for sleep/HRV/RHR — no double-pulling power from two apps. Change sources later on the Athlete tab.</li>
+        <li><strong class="text-white">Import-first setup</strong> — connect a source to pre-fill power curve and HR where possible; manual entry stays as fallback if import isn’t available.</li>
+        <li><strong class="text-white">Planned workout detail</strong> — open a session and it reads more like ride analysis: clearer structure, targets, and purpose (not a flat wall of text)</li>
+        <li><strong class="text-white">Session Progression Guard</strong> — same-family hard days (threshold / tempo / VO₂, etc.) in build weeks must step up in dose, structure, watts, or density — no clone hard sessions; deload, taper, recovery cuts, and hard-volume caps still respected</li>
+        <li><strong class="text-white">Intervals.icu</strong> — personal API integration and Data Import connect flow; OAuth scope rules locked in (<code class="text-zinc-300">SETTINGS:READ</code>, calendar write only without duplicate scopes, import-first / athlete-initiated push)</li>
+        <li><strong class="text-white">Wahoo</strong> — live path confirmed with real-device test (workout uploaded into the app); OAuth reliability + Today/Calendar completion marking</li>
+        <li>FuelSync / Nutrition audit fixes: rebalance, meal delete resurrect bugs, timeline times, inflated targets after long rides</li>
+        <li>Calendar freezes fixed (day open + week navigation)</li>
+        <li>Public FAQ, changelog, and <code class="text-zinc-300">llms.txt</code> on veloforge.app for humans and AI agents</li>
+        <li>TestFlight build path active (e.g. 1.0.0 build 153) for early athletes</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <h2>July 2026</h2>
+      <ul>
+        <li><strong class="text-white">Strava</strong> — full connect pipeline, server-side token exchange, sync into calendar + FuelSync, intensity / hard-volume rebalance</li>
+        <li><strong class="text-white">Coach Forge</strong> — full-screen coach chat, plan orchestration, compound requests, live FuelSync + ride context (moved AI surfaces to current Grok models)</li>
+        <li>Training Calendar redesign (Month / Week)</li>
+        <li>Completed ride analysis + Norm Power (Coggan) from power stream</li>
+        <li>Hammerhead (Karoo) OAuth path; Sync Zones from Device; Coach Setup gate for first-run</li>
+        <li>Hybrid Guide Z5 VO2 structure, progressive physiological targets, Momentum cards on live recovery + power history</li>
+        <li>Data &amp; Import upgrades (preview/confirm, Quick Log, Garmin wizard UI)</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <h2>June 2026</h2>
+      <ul>
+        <li>Apple Health sleep path; Garmin Connect OAuth/webhook backfill path; Wahoo OAuth + workout sync path</li>
+        <li>FuelSync unification: daily summary, intensity-aware buffers, meal skip/rebalance, during-ride fuel</li>
+        <li>Group ride planning with Z3+ hard-volume trim; deload/taper-aware group ride handling</li>
+        <li>Forge redesigned as AI-first coach command center; weather-aware coaching context</li>
+        <li>Athlete profile + plan persistence across reinstall / re-login; calendar multi-week stability</li>
+        <li>Completed ride analysis with FIT import and execution scoring</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <h2>May 2026</h2>
+      <ul>
+        <li>Nutrition depth: meal timing, saved meals library, local parser fallback, quantity editing, KPI polish</li>
+        <li>Coach schedule edit sync across the app</li>
+        <li>Today screen performance / sticky scroll fixes</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <h2>March–April 2026</h2>
+      <ul>
+        <li>Core VeloForge app foundations and early coaching / nutrition loops</li>
+        <li>Marketing site + sales landing work; AI agent–friendly demo surfaces</li>
+        <li>Backend model stack iteration (modern LLM providers for coach surfaces)</li>
+      </ul>
+    </div>
+
+    <div class="rounded-xl border border-zinc-800 bg-zinc-900/50 p-5 text-sm text-zinc-400 mb-12">
+      <p class="text-white font-semibold mb-2">How we maintain this</p>
+      <p class="mb-2">
+        Going forward: add a short human entry when something athletes can feel ships (integration, coach behavior, FuelSync, calendar).
+      </p>
+      <p>
+        Historical detail can be bulk-imported from git (and Cursor session notes). This page is the athlete-facing
+        summary, not a raw commit dump.
+      </p>
+    </div>
+
+    <div class="mt-8 pt-8 border-t border-zinc-800 text-center text-sm text-zinc-500">
+      <a href="/" class="text-emerald-400 text-lg no-underline">← Back to VeloForge</a>
+      <p class="mt-6">
+        © 2026 VeloForge ·
+        <a href="/faq">FAQ</a> ·
+        <a href="/changelog">Changelog</a> ·
+        <a href="/privacy">Privacy</a> ·
+        <a href="/terms">Terms</a>
+      </p>
+    </div>
+  </main>
+</body>
+</html>
