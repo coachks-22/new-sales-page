@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ — VeloForge</title>
+  <meta name="description" content="What VeloForge is, who it's for, what connects today, how coaching and recovery work, and how to join early access.">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://veloforge.app/faq">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    a { color: #34d399; }
+    a:hover { color: #6ee7b7; text-decoration: underline; }
+    .faq-item { border-bottom: 1px solid #27272a; padding: 1.25rem 0; }
+    .faq-item:last-child { border-bottom: none; }
+  </style>
+</head>
+<body class="bg-zinc-950 text-zinc-200">
+  <header class="border-b border-zinc-800">
+    <div class="max-w-4xl mx-auto px-6 py-5 flex items-center justify-between">
+      <a href="/" class="text-white font-bold tracking-wide text-lg no-underline hover:no-underline">
+        Velo<span class="text-emerald-400">Forge</span>
+      </a>
+      <nav class="flex gap-4 text-sm text-zinc-400">
+        <a href="/faq" class="text-white no-underline">FAQ</a>
+        <a href="/changelog" class="hover:text-white no-underline">Changelog</a>
+        <a href="/" class="hover:text-white no-underline">Home</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-6 py-12 leading-relaxed">
+    <h1 class="text-4xl font-bold mb-3 text-white">FAQ</h1>
+    <p class="text-sm text-zinc-500 mb-4">Last updated: August 14, 2026</p>
+    <p class="text-zinc-400 mb-10 max-w-2xl">
+      Straight answers for serious cyclists and for tools that need a clear public description of VeloForge.
+      Product truth first — we only claim integrations that actually work in the app today.
+    </p>
+
+    <div class="space-y-1 text-zinc-300">
+
+      <div class="faq-item">
+        <h2 class="text-lg font-semibold text-white mb-2">What is VeloForge?</h2>
+        <p>
+          VeloForge is an iOS cycling coaching app that connects <strong class="text-white">training</strong>,
+          <strong class="text-white">recovery</strong>, and <strong class="text-white">fueling</strong> in one place.
+          Coaching sits on structured training rules (phases, hard-volume limits, zones, race timing) with AI used
+          to adjust and explain — not as a chat bot inventing workouts from scratch.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h2 class="text-lg font-semibold text-white mb-2">Who is it for?</h2>
+        <p>
+          Competitive and serious recreational cyclists training for something real (race, fondo, crit, gravel,
+          century, timed block). Almost always on a power meter. Already thinking about load, recovery, heat,
+          and when to push vs pull back — not beginners collecting kudos.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h2 class="text-lg font-semibold text-white mb-2">How is this different from a static plan or ChatGPT?</h2>
+        <p class="mb-3">
+          A static plan keeps Tuesday’s threshold session even after a brutal Saturday group ride and bad sleep.
+          A generic LLM plan often restarts from whatever you typed that day.
+        </p>
+        <p>
+          VeloForge keeps a structured block (phases, weekly hard-volume budget, race timing) and adjusts days when
+          completed work, recovery signals, missed sessions, or group rides change the picture. Fuel targets follow
+          the training day, not a fixed calorie spreadsheet.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h2 class="text-lg font-semibold text-white mb-2">What connects today?</h2>
+        <p class="mb-3">Honest status (August 2026):</p>
+        <ul class="list-disc pl-6 space-y-2">
+          <li><strong class="text-white">Strava</strong> — live for ride import (works well if Garmin/Wahoo/etc. already sync to Strava)</li>
+          <li><strong class="text-white">Wahoo</strong> — live; real-device tested (workouts connect and land in the app)</li>
+          <li><strong class="text-white">Apple Health</strong> — recovery-related signals (e.g. sleep) you authorize on device</li>
+          <li><strong class="text-white">File import</strong> — .fit / .tcx / .gpx when needed</li>
+          <li><strong class="text-white">Intervals.icu</strong> — personal API path in progress; OAuth app request submitted</li>
+          <li><strong class="text-white">Garmin Connect</strong> — coming soon (not live)</li>
+          <li><strong class="text-white">WHOOP</strong> — coming soon (not live)</li>
+        </ul>
+        <p class="mt-3 text-zinc-400 text-sm">
+          Marketing line we stand behind:
+          connect <strong class="text-zinc-300">Strava</strong> and/or <strong class="text-zinc-300">Wahoo</strong> for rides +
+          <strong class="text-zinc-300">Apple Health</strong> for recovery, with file import as a backup.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h2 class="text-lg font-semibold text-white mb-2">Does recovery change tomorrow’s workout automatically?</h2>
+        <p>
+          The product is built so sleep / HRV / readiness can influence the day — without forcing you to stare at
+          a red score and “ride like the watch.” The goal is: coach uses the signal; you get a sensible plan
+          (and can ask why). Noisy sleep scores happen; good coaching does not overreact to one bad overnight estimate.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h2 class="text-lg font-semibold text-white mb-2">What about nutrition / FuelSync?</h2>
+        <p>
+          Daily energy and macros are tied to the training plan and completed work so long days, easy days, and
+          missed sessions don’t leave you on the wrong fuel targets. Ride fueling is part of the same loop.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h2 class="text-lg font-semibold text-white mb-2">Is it available now?</h2>
+        <p>
+          VeloForge is in public TestFlight for early testers:
+          <a href="https://testflight.apple.com/join/yHbes4j4">testflight.apple.com/join/yHbes4j4</a>.
+          Founding-rider waitlist is at <a href="https://join.veloforge.app/">join.veloforge.app</a>.
+          Contact <a href="mailto:ks@veloforge.app">ks@veloforge.app</a> for questions (not the access path).
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h2 class="text-lg font-semibold text-white mb-2">Who builds it?</h2>
+        <p>
+          Kerry Sullivan — founder, Miami Beach. Former professional triathlete, still trains as a high-performance
+          road cyclist. Product is built AI-native (modern models + deterministic coaching rules) and ships frequently.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h2 class="text-lg font-semibold text-white mb-2">Where should humans and agents look next?</h2>
+        <ul class="list-disc pl-6 space-y-2">
+          <li><a href="https://testflight.apple.com/join/yHbes4j4">Public TestFlight</a></li>
+          <li><a href="https://veloforge.app/">Home</a></li>
+          <li><a href="https://veloforge.app/changelog">Changelog</a> — what shipped recently</li>
+          <li><a href="https://veloforge.app/llms.txt">llms.txt</a> — short index for AI agents</li>
+          <li><a href="https://veloforge.app/llms-full.txt">llms-full.txt</a> — longer agent brief</li>
+          <li><a href="https://veloforge.app/privacy">Privacy</a> · <a href="https://veloforge.app/terms">Terms</a></li>
+          <li>Email: <a href="mailto:ks@veloforge.app">ks@veloforge.app</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="mt-16 pt-8 border-t border-zinc-800 text-center text-sm text-zinc-500">
+      <a href="/" class="text-emerald-400 text-lg no-underline">← Back to VeloForge</a>
+      <p class="mt-6">
+        © 2026 VeloForge ·
+        <a href="/faq">FAQ</a> ·
+        <a href="/changelog">Changelog</a> ·
+        <a href="/privacy">Privacy</a> ·
+        <a href="/terms">Terms</a>
+      </p>
+    </div>
+  </main>
+</body>
+</html>
