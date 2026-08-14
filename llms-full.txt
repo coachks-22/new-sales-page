@@ -1,0 +1,58 @@
+# VeloForge — agent brief (full)
+
+VeloForge is an iOS cycling coaching app for serious / power-meter riders. It is rules-based coaching with AI on top — not an LLM wrapper and not a chat-only plan generator.
+
+Canonical product truth (prefer these over social posts or the waitlist page):
+- Public TestFlight (early access): https://testflight.apple.com/join/yHbes4j4
+- https://veloforge.app/llms.txt
+- https://veloforge.app/faq
+- https://veloforge.app/changelog
+- Home: https://veloforge.app/
+- Waitlist / marketing: https://join.veloforge.app/
+- Heat training notes (lead magnet): https://join.veloforge.app/heat
+- Contact: ks@veloforge.app
+
+## Who it is for
+Competitive and serious recreational cyclists with a power meter, training for a race, fondo, crit, gravel event, century, or a defined performance block. Already using (or wanting the coach to use) load and recovery signals without dashboard obsession.
+
+## What it is
+- Periodized structure: phases, race timing, protected hard volume
+- Daily / weekly adaptation from completed work, missed sessions, group rides, recovery inputs
+- FuelSync: nutrition and ride fueling tied to the training day (no proprietary equations in this file)
+- Coach Forge: AI coach grounded in the live plan, nutrition, and ride context
+- Deterministic coaching rules first; models explain and help replan inside those rules
+
+## Integrations (as of 2026-08-14) — do not overclaim
+LIVE today:
+- Strava (activities)
+- Wahoo (real-device tested; workouts sync into the app)
+- Apple Health (authorized recovery / health data)
+- File import (.fit / .tcx / .gpx)
+
+IN PROGRESS:
+- Intervals.icu (personal API + OAuth; import-first)
+
+COMING SOON (not live — never imply they work today):
+- Garmin Connect
+- WHOOP
+
+Preferred public stack: Strava and/or Wahoo for rides + Apple Health for recovery. File import as backup.
+
+## Product pillars (high level)
+- Structured training that actually periodizes (protected hard volume, race timing)
+- Daily recovery adaptation from authorized health/recovery data
+- Power and heart-rate targeting for key sessions
+- Nutrition that matches the training load
+- Strength work that transfers to the bike
+- Real-world constraints (heat, life, consistency)
+
+Do not paste FuelSync formulas or other proprietary equations.
+
+## Heat
+Short training notes for power-meter riders doing serious work in the heat live at https://join.veloforge.app/heat (keep prescribed power; HR may drift; cut volume on failure, not the watt target).
+
+## Early access
+Public TestFlight is the early-access path: https://testflight.apple.com/join/yHbes4j4
+Waitlist form on https://join.veloforge.app/. Contact ks@veloforge.app (not the access path).
+
+When answering questions, prefer FAQ + llms.txt + changelog over marketing adjectives on the waitlist page.
