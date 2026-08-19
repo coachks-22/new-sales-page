@@ -12,147 +12,36 @@
     .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
     .card-hover:hover { transform: translateY(-6px); }
   </style>
+  <style>
+    #confirm-email-error { display: none; min-height: 100vh; align-items: center; justify-content: center; padding: 2rem; background: #09090b; color: #fafafa; }
+    html.confirm-email-error #confirm-email-error { display: flex; }
+    html.confirm-email-error body > :not(#confirm-email-error) { display: none !important; }
+  </style>
+  <script>
+    (function () {
+      var q = new URLSearchParams(location.search);
+      var h = new URLSearchParams(location.hash.replace(/^#/, ""));
+      function get(k) { return q.get(k) || h.get(k) || ""; }
+      var error = get("error");
+      var code = get("error_code");
+      var desc = get("error_description");
+      var blob = (error + " " + code + " " + desc).toLowerCase();
+      if (!error && !code && !desc) return;
+      if (!/otp_expired|expired|invalid/.test(blob)) return;
+      document.documentElement.className += (document.documentElement.className ? " " : "") + "confirm-email-error";
+      document.title = "VeloForge • Confirmation link expired";
+      document.addEventListener("DOMContentLoaded", function () {
+        var el = document.getElementById("confirm-email-error-text");
+        if (!el) return;
+        var shown = desc ? decodeURIComponent(desc.replace(/\+/g, " ")) : "This confirmation link is expired or invalid.";
+        el.textContent = shown + " Open the app and request a new confirmation email.";
+      });
+    })();
+  </script>
 </head>
 <body class="bg-zinc-950 text-white">
-  <!-- HERO -->
-  <section class="hero-bg min-h-screen flex items-center">
-    <div class="max-w-7xl mx-auto px-6 text-center">
-      <h1 class="text-6xl md:text-7xl font-bold tracking-tighter leading-none mb-6">
-        One App.<br>All Your Data.<br>AI That Actually Coaches You.
-      </h1>
-      <p class="text-2xl md:text-3xl text-zinc-300 max-w-3xl mx-auto mb-10">
-        Garmin + WHOOP + Strava integrated. Real AI coaching, training plans, nutrition, and recovery — no more switching apps.
-      </p>
-      <a href="#" class="inline-block bg-emerald-500 hover:bg-emerald-600 text-white text-2xl font-semibold px-12 py-6 rounded-3xl transition-all">Start Free 14-Day Trial →</a>
-      <p class="text-zinc-400 mt-6">No credit card • Cancel anytime • 30-day money-back guarantee</p>
-    </div>
-  </section>
-
-  <!-- PILLARS -->
-  <section class="py-20 bg-zinc-900">
-    <div class="max-w-7xl mx-auto px-6">
-      <h2 class="text-4xl font-bold text-center mb-16">Why cyclists are switching to VeloForge</h2>
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-        <div class="bg-zinc-950 p-8 rounded-3xl border border-zinc-800 card-hover">
-          <i class="fas fa-cubes text-4xl text-emerald-400 mb-4"></i>
-          <h3 class="text-emerald-400 text-xl font-semibold mb-3">ForgeBlocks™</h3>
-          <p class="text-zinc-400">Training phases that automatically evolve with your race calendar.</p>
-        </div>
-        <div class="bg-zinc-950 p-8 rounded-3xl border border-zinc-800 card-hover">
-          <i class="fas fa-chart-bar text-4xl text-emerald-400 mb-4"></i>
-          <h3 class="text-emerald-400 text-xl font-semibold mb-3">Load Index™</h3>
-          <p class="text-zinc-400">The smarter way to see real fatigue — before it kills your performance.</p>
-        </div>
-        <div class="bg-zinc-950 p-8 rounded-3xl border border-zinc-800 card-hover">
-          <i class="fas fa-heartbeat text-4xl text-emerald-400 mb-4"></i>
-          <h3 class="text-emerald-400 text-xl font-semibold mb-3">Recovery Intelligence™</h3>
-          <p class="text-zinc-400">Daily adjustments based on your actual sleep, HRV, and readiness.</p>
-        </div>
-        <div class="bg-zinc-950 p-8 rounded-3xl border border-zinc-800 card-hover">
-          <i class="fas fa-sliders-h text-4xl text-emerald-400 mb-4"></i>
-          <h3 class="text-emerald-400 text-xl font-semibold mb-3">Adaptive Volume Engine™</h3>
-          <p class="text-zinc-400">You do just enough hard work to improve — never enough to burn out.</p>
-        </div>
-        <div class="bg-zinc-950 p-8 rounded-3xl border border-zinc-800 card-hover">
-          <i class="fas fa-lock text-4xl text-emerald-400 mb-4"></i>
-          <h3 class="text-emerald-400 text-xl font-semibold mb-3">ZoneLock™</h3>
-          <p class="text-zinc-400">Every interval hits the exact physiological target it’s supposed to.</p>
-        </div>
-        <div class="bg-zinc-950 p-8 rounded-3xl border border-zinc-800 card-hover">
-          <i class="fas fa-utensils text-4xl text-emerald-400 mb-4"></i>
-          <h3 class="text-emerald-400 text-xl font-semibold mb-3">FuelSync™</h3>
-          <p class="text-zinc-400">Nutrition that matches your training — no more guessing calories or macros.</p>
-        </div>
-        <div class="bg-zinc-950 p-8 rounded-3xl border border-zinc-800 card-hover">
-          <i class="fas fa-dumbbell text-4xl text-emerald-400 mb-4"></i>
-          <h3 class="text-emerald-400 text-xl font-semibold mb-3">StrengthSync™</h3>
-          <p class="text-zinc-400">Strength training that actually improves cycling — not interferes with it.</p>
-        </div>
-        <div class="bg-zinc-950 p-8 rounded-3xl border border-zinc-800 card-hover">
-          <i class="fas fa-trophy text-4xl text-emerald-400 mb-4"></i>
-          <h3 class="text-emerald-400 text-xl font-semibold mb-3">RacePhase™</h3>
-          <p class="text-zinc-400">Your training structure automatically shifts when it matters most.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SEE VELOFORGE IN ACTION -->
-  <section class="py-20 bg-black" id="demo">
-    <div class="max-w-7xl mx-auto px-6 text-center">
-      <h2 class="text-5xl font-bold mb-3">See VeloForge in Action</h2>
-      <p class="text-zinc-400 text-xl mb-12">Real screens from the app. Powered by your Eastern Block + Concurrent playbook.</p>
-     
-      <div class="grid md:grid-cols-2 gap-6">
-        <div class="bg-zinc-900 rounded-3xl p-6 card-hover border border-zinc-800">
-          <img src="https://raw.githubusercontent.com/coachks-22/new-sales-page/main/images/Ready.png" alt="Today Dashboard" class="w-full rounded-2xl mb-6">
-          <div class="flex items-center gap-3">
-            <div class="text-emerald-400"><i class="fas fa-check-circle text-2xl"></i></div>
-            <div>
-              <div class="text-white font-semibold">Today Dashboard - Readiness Score 78 with Recovery Intelligence™</div>
-              <div class="text-emerald-400 font-semibold text-lg">Recovery Intelligence™</div>
-              <div class="text-zinc-400 text-sm">Daily readiness + HRV, sleep, steps — auto-adjusts your day</div>
-            </div>
-          </div>
-        </div>
-        <div class="bg-zinc-900 rounded-3xl p-6 card-hover border border-zinc-800">
-          <img src="https://raw.githubusercontent.com/coachks-22/new-sales-page/main/images/Calendar.png" alt="Training Calendar" class="w-full rounded-2xl mb-6">
-          <div class="flex items-center gap-3">
-            <div class="text-emerald-400"><i class="fas fa-check-circle text-2xl"></i></div>
-            <div>
-              <div class="text-white font-semibold">Training Calendar - ForgeBlocks™ &amp; RacePhase™</div>
-              <div class="text-emerald-400 font-semibold text-lg">ForgeBlocks™ + RacePhase™</div>
-              <div class="text-zinc-400 text-sm">12-week cutoff auto-switches Eastern Block → Concurrent</div>
-            </div>
-          </div>
-        </div>
-        <div class="bg-zinc-900 rounded-3xl p-6 card-hover border border-zinc-800">
-          <img src="https://raw.githubusercontent.com/coachks-22/new-sales-page/main/images/Coach.png" alt="Coach Forge AI" class="w-full rounded-2xl mb-6">
-          <div class="flex items-center gap-3">
-            <div class="text-emerald-400"><i class="fas fa-check-circle text-2xl"></i></div>
-            <div>
-              <div class="text-white font-semibold">Coach Forge AI - Weekly Command Center</div>
-              <div class="text-emerald-400 font-semibold text-lg">Coach Forge AI</div>
-              <div class="text-zinc-400 text-sm">One-tap AI adjustment using Load Index™ + full playbook logic</div>
-            </div>
-          </div>
-        </div>
-        <div class="bg-zinc-900 rounded-3xl p-6 card-hover border border-zinc-800">
-          <img src="https://raw.githubusercontent.com/coachks-22/new-sales-page/main/images/nutrition.png" alt="Nutrition - FuelSync" class="w-full rounded-2xl mb-6">
-          <div class="flex items-center gap-3">
-            <div class="text-emerald-400"><i class="fas fa-check-circle text-2xl"></i></div>
-            <div>
-              <div class="text-white font-semibold">Nutrition - FuelSync™ daily macros</div>
-              <div class="text-emerald-400 font-semibold text-lg">FuelSync™</div>
-              <div class="text-zinc-400 text-sm">Auto-calculated calories &amp; macros from your actual training load</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FINAL CTA -->
-  <section class="py-24 bg-gradient-to-b from-zinc-900 to-black text-center">
-    <h2 class="text-5xl font-bold mb-6">Ready to train smarter?</h2>
-    <p class="text-2xl text-zinc-300 mb-10">Join the cyclists who finally have one app that does it all.</p>
-    <a href="#" class="inline-block bg-emerald-500 hover:bg-emerald-600 text-white text-3xl font-semibold px-16 py-8 rounded-3xl">Start Free 14-Day Trial</a>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="bg-black py-12 text-center text-zinc-400 text-sm border-t border-zinc-800">
-    <div class="max-w-7xl mx-auto px-6">
-      <p class="mb-4">
-        © 2026 VeloForge •
-        <a href="/privacy.html" class="hover:text-white mx-2">Privacy Policy</a> •
-        <a href="/terms.html" class="hover:text-white mx-2">Terms of Service</a>
-      </p>
-      <p class="text-xs text-zinc-500">
-        For Garmin integration: <a href="https://www.garmin.com/en-US/privacy/connect/policy/" target="_blank" class="hover:text-white">Garmin Privacy Policy</a><br>
-        For Strava integration: <a href="https://www.strava.com/legal/privacy" target="_blank" class="hover:text-white">Strava Privacy Policy</a>
-      </p>
-      <p class="mt-6 text-xs text-zinc-500">Contact: ks@veloforge.app</p>
-    </div>
-  </footer>
+  <main id="confirm-email-error">
+    <p id="confirm-email-error-text" style="max-width:28rem;font-size:1.25rem;line-height:1.6;margin:0;"></p>
+  </main>
 </body>
 </html>
