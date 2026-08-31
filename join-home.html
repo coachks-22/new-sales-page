@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>VeloForge — One App. AI That Actually Coaches You.</title>
+ <style>
+ :root {
+ --bg: #0a0a0b;
+ --bg-card: #141416;
+ --bg-elevated: #1c1c1f;
+ --text: #f4f4f5;
+ --text-muted: #a1a1aa;
+ --accent: #22c55e;
+ --accent-hover: #16a34a;
+ --accent-soft: rgba(34, 197, 94, 0.08);
+ --accent-border: #14532d;
+ --success: #22c55e;
+ --border: #27272a;
+ }
+ * { box-sizing: border-box; margin: 0; padding: 0; }
+ body {
+ font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+ background: var(--bg);
+ color: var(--text);
+ line-height: 1.6;
+ -webkit-font-smoothing: antialiased;
+ }
+ .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+ a { color: inherit; text-decoration: none; }
+header { padding: 20px 0; border-bottom: 1px solid var(--border); }
+ .nav { display: flex; justify-content: space-between; align-items: center; }
+ .logo { font-weight: 700; font-size: 18px; letter-spacing: 0.04em; }
+ .logo span { color: var(--accent); }
+ .nav-cta {
+ background: var(--accent);
+ color: #052e16;
+ font-weight: 600;
+ font-size: 14px;
+ padding: 10px 18px;
+ border-radius: 8px;
+ }
+ .nav-cta:hover { background: var(--accent-hover); color: #fff; }
+
+ .hero { padding: 80px 0 70px; text-align: center; }
+ .badge {
+ display: inline-block;
+ font-size: 12px;
+ font-weight: 600;
+ letter-spacing: 0.08em;
+ text-transform: uppercase;
+ color: var(--accent);
+ background: var(--accent-soft);
+ border: 1px solid var(--accent-border);
+ padding: 6px 14px;
+ border-radius: 999px;
+ margin-bottom: 24px;
+ }
+ .hero h1 {
+ font-size: clamp(36px, 6vw, 52px);
+ font-weight: 800;
+ letter-spacing: -0.03em;
+ line-height: 1.1;
+ margin-bottom: 20px;
+ }
+ .hero p.lead {
+ font-size: 19px;
+ color: var(--text-muted);
+ max-width: 620px;
+ margin: 0 auto 32px;
+ }
+ .hero-ctas {
+ display: flex;
+ gap: 14px;
+ justify-content: center;
+ flex-wrap: wrap;
+ margin-bottom: 16px;
+ }
+ .btn-primary {
+ background: var(--accent);
+ color: #052e16;
+ font-weight: 600;
+ font-size: 16px;
+ padding: 14px 28px;
+ border-radius: 10px;
+ display: inline-flex;
+ align-items: center;
+ gap: 8px;
+ }
+ .btn-primary:hover { background: var(--accent-hover); color: #fff; }
+ .btn-secondary {
+ background: transparent;
+ color: var(--text);
+ font-weight: 500;
+ font-size: 16px;
+ padding: 14px 28px;
+ border-radius: 10px;
+ border: 1px solid var(--border);
+ }
+ .hero-note { font-size: 14px; color: var(--text-muted); }
+
+ section { padding: 70px 0; }
+ .section-label {
+ display: inline-block;
+ font-size: 12px;
+ font-weight: 600;
+ letter-spacing: 0.08em;
+ text-transform: uppercase;
+ color: var(--accent);
+ margin-bottom: 12px;
+ }
+ h2 {
+ font-size: clamp(28px, 4vw, 38px);
+ font-weight: 700;
+ letter-spacing: -0.02em;
+ line-height: 1.15;
+ margin-bottom: 16px;
+ }
+ .section-sub {
+ font-size: 17px;
+ color: var(--text-muted);
+ max-width: 640px;
+ margin-bottom: 40px;
+ }
+ .problem-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+ gap: 20px;
+ }
+ .problem-card {
+ background: var(--bg-card);
+ border: 1px solid var(--border);
+ border-radius: 14px;
+ padding: 28px;
+ }
+ .problem-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 10px; }
+ .problem-card p { font-size: 15px; color: var(--text-muted); }
+
+ .pillars-grid {
+ display: grid;
+ grid-template-columns: repeat(4, 1fr);
+ gap: 18px;
+ align-items: stretch;
+ }
+ .pillars-grid.bottom {
+ grid-template-columns: repeat(2, 1fr);
+ max-width: 50%;
+ margin-top: 18px;
+ }
+ @media (max-width: 1100px) {
+ .pillars-grid { grid-template-columns: repeat(2, 1fr); }
+ .pillars-grid.bottom { max-width: 100%; }
+ }
+ @media (max-width: 560px) {
+ .pillars-grid { grid-template-columns: 1fr; }
+ .pillars-grid.bottom { grid-template-columns: 1fr; max-width: 100%; }
+ }
+ .pillar {
+ background: var(--bg-card);
+ border: 1px solid var(--border);
+ border-radius: 14px;
+ padding: 22px;
+ display: flex;
+ flex-direction: column;
+ min-height: 100%;
+ height: 100%;
+ }
+ .pillar-num { font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 8px; }
+ .pillar h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; line-height: 1.3; min-height: 2.6em; }
+ .pillar p { font-size: 14px; color: var(--text-muted); line-height: 1.5; flex: 1; margin-bottom: 14px; }
+ .pillar-media {
+ margin-top: auto;
+ width: 100%;
+ aspect-ratio: 415 / 900;
+ border-radius: 12px;
+ overflow: hidden;
+ border: 1px solid var(--border);
+ background: #0c0c0e;
+ position: relative;
+ }
+ .pillar-media img {
+ width: 100%;
+ height: 100%;
+ object-fit: contain;
+ object-position: center top;
+ display: block;
+ margin: 0;
+ border-radius: 0;
+ border: none;
+ }
+ .pillar-media.placeholder {
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ background: linear-gradient(160deg, #12141a 0%, #0c1a12 55%, #0a0a0b 100%);
+ }
+ .pillar-media.placeholder span {
+ font-size: 12px;
+ color: var(--text-muted);
+ letter-spacing: 0.04em;
+ text-transform: uppercase;
+ opacity: 0.55;
+ }
+
+ .intro-box {
+ background: linear-gradient(135deg, #0c1a12 0%, #141416 100%);
+ border: 1px solid var(--accent-border);
+ border-radius: 16px;
+ padding: 28px 32px;
+ margin-bottom: 48px;
+ }
+ .intro-box p { font-size: 17px; color: #e4e4e7; }
+ .intro-box strong { color: var(--accent); }
+
+ .compare-table-wrap {
+ overflow-x: auto;
+ margin-bottom: 56px;
+ border-radius: 16px;
+ border: 1px solid var(--border);
+ }
+ table.compare {
+ width: 100%;
+ border-collapse: collapse;
+ min-width: 740px;
+ }
+ table.compare th, table.compare td {
+ padding: 16px 18px;
+ text-align: left;
+ border-bottom: 1px solid var(--border);
+ font-size: 14px;
+ }
+ table.compare th { background: var(--bg-elevated); font-weight: 600; }
+ table.compare th:first-child { width: 30%; }
+ table.compare th.vf {
+ background: linear-gradient(180deg, #0f2a1a 0%, #0c1a12 100%);
+ color: var(--accent);
+ border-bottom: 2px solid var(--accent);
+ }
+ table.compare td.vf { background: var(--accent-soft); font-weight: 500; }
+ table.compare tr:last-child td { border-bottom: none; }
+ .check { color: var(--success); font-weight: 700; }
+ .cross { color: #71717a; }
+ .partial { color: #fbbf24; }
+
+ .vs-grid { display: grid; gap: 24px; margin-bottom: 48px; }
+ .vs-card {
+ background: var(--bg-card);
+ border: 1px solid var(--border);
+ border-radius: 16px;
+ padding: 28px;
+ }
+ .vs-card h3 {
+ font-size: 20px;
+ font-weight: 700;
+ margin-bottom: 6px;
+ display: flex;
+ align-items: center;
+ gap: 8px;
+ }
+ .vs-card h3 span.vs { color: var(--text-muted); font-weight: 500; font-size: 17px; }
+ .vs-card .tagline { font-size: 14.5px; color: var(--text-muted); margin-bottom: 18px; }
+ .vs-card .diff { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+ @media (max-width: 700px) { .vs-card .diff { grid-template-columns: 1fr; } }
+ .vs-side h4 {
+ font-size: 12px;
+ text-transform: uppercase;
+ letter-spacing: 0.06em;
+ color: var(--text-muted);
+ margin-bottom: 8px;
+ }
+ .vs-side.vf h4 { color: var(--accent); }
+ .vs-side ul { list-style: none; }
+ .vs-side ul li {
+ position: relative;
+ padding-left: 20px;
+ margin-bottom: 7px;
+ font-size: 14px;
+ color: #d4d4d8;
+ }
+ .vs-side ul li::before { content: "•"; position: absolute; left: 5px; color: #52525b; }
+ .vs-side.vf ul li::before { content: "✓"; color: var(--success); font-weight: 700; }
+
+ .steps {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+ gap: 20px;
+ }
+ .step {
+ background: var(--bg-card);
+ border: 1px solid var(--border);
+ border-radius: 14px;
+ padding: 28px;
+ text-align: center;
+ }
+ .step-num {
+ width: 36px; height: 36px;
+ background: var(--accent-soft);
+ color: var(--accent);
+ font-weight: 700;
+ border-radius: 50%;
+ display: flex; align-items: center; justify-content: center;
+ margin: 0 auto 16px;
+ }
+ .step h3 { font-size: 17px; margin-bottom: 8px; }
+ .step p { font-size: 14px; color: var(--text-muted); }
+
+ .benefits-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+ gap: 16px;
+ text-align: center;
+ }
+ .benefit {
+ background: var(--bg-card);
+ border: 1px solid var(--border);
+ border-radius: 14px;
+ padding: 28px 20px;
+ }
+ .benefit .stat { font-size: 28px; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+ .benefit .label { font-size: 14px; color: var(--text-muted); }
+
+ .waitlist-box {
+ background: linear-gradient(135deg, #0c1a12 0%, #141416 100%);
+ border: 1px solid var(--accent-border);
+ border-radius: 20px;
+ padding: 48px 40px;
+ max-width: 640px;
+ margin: 0 auto;
+ text-align: center;
+ }
+ .waitlist-box h2 { margin-bottom: 12px; }
+ .waitlist-box > p { color: var(--text-muted); margin-bottom: 28px; }
+ .benefits-list { text-align: left; margin: 0 auto 28px; max-width: 420px; }
+ .benefits-list li {
+ list-style: none;
+ padding: 8px 0;
+ font-size: 15px;
+ display: flex;
+ gap: 10px;
+ }
+ .benefits-list li::before { content: "✓"; color: var(--accent); font-weight: 700; }
+ .form-note { font-size: 13px; color: var(--text-muted); margin-top: 16px; }
+
+ .faq-item { border-bottom: 1px solid var(--border); padding: 20px 0; }
+ .faq-item:last-child { border-bottom: none; }
+ .faq-q { font-weight: 600; font-size: 16px; margin-bottom: 8px; }
+ .faq-a { font-size: 15px; color: var(--text-muted); }
+
+ .final-cta {
+ text-align: center;
+ padding: 80px 0;
+ border-top: 1px solid var(--border);
+ }
+ .final-cta h2 { margin-bottom: 12px; }
+ .final-cta p { color: var(--text-muted); margin-bottom: 28px; }
+
+ 
+ .problem-card img {
+ width: 100%;
+ height: 160px;
+ object-fit: cover;
+ border-radius: 10px;
+ margin-bottom: 16px;
+ background: #111;
+ }
+ .pillar img.screenshot {
+ width: 100%;
+ border-radius: 10px;
+ margin-top: 12px;
+ border: 1px solid var(--border);
+ }
+ .pillar-icon {
+ width: 48px;
+ height: 48px;
+ background: var(--accent-soft);
+ border-radius: 12px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 22px;
+ margin-bottom: 12px;
+ }
+ .screens-row {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+ gap: 16px;
+ margin-top: 24px;
+ }
+ .screens-row img {
+ width: 100%;
+ border-radius: 12px;
+ border: 1px solid var(--border);
+ }
+
+ footer {
+ padding: 30px 0;
+ border-top: 1px solid var(--border);
+ text-align: center;
+ font-size: 13px;
+ color: var(--text-muted);
+ }
+ </style>
+</head>
+<body>
+ <header>
+ <div class="container nav">
+ <div class="logo">VELO<span>FORGE</span></div>
+ <a href="https://docs.google.com/forms/d/e/1FAIpQLScqWY0Brh7iXmLG-UkEqmZMOeHQkSBuGaq2SojjIwQRI_PypA/viewform" class="nav-cta">Join Waitlist</a>
+ </div>
+ </header>
+
+ <section class="hero">
+ <div class="container">
+ <div class="badge">Founding Waitlist Open · First 500 Only</div>
+ <h1>One App.<br>AI That Actually Coaches You.</h1>
+ <p class="lead">
+ Stop juggling 4 apps and a coach who never sees your recovery data. VeloForge owns training, recovery intelligence, and fueling in one place — and adapts every day. Strava, Wahoo, and Apple Health are live. Garmin and WHOOP are coming soon.
+ </p>
+ <div class="hero-ctas">
+ <a href="https://docs.google.com/forms/d/e/1FAIpQLScqWY0Brh7iXmLG-UkEqmZMOeHQkSBuGaq2SojjIwQRI_PypA/viewform" class="btn-primary">Claim Founding Spot →</a>
+ <a href="#comparison" class="btn-secondary">See how we compare</a>
+ </div>
+ <p class="hero-note">No credit card · Founding price locked for life</p>
+ </div>
+ </section>
+
+ <section>
+ <div class="container">
+ <div class="section-label">The problem</div>
+ <h2>The problem every serious cyclist knows</h2>
+ <p class="section-sub">You already own the devices. You already pay for the apps. You still plateau, overtrain, or show up to races under-fueled and under-recovered.</p>
+ <div class="problem-grid">
+ <div class="problem-card">
+ <h3>Fragmented data</h3>
+ <p>WHOOP says rest. TrainingPeaks says hammer. Garmin says green. Your coach never sees the full picture in time.</p>
+ </div>
+ <div class="problem-card">
+ <h3>Generic plans</h3>
+ <p>Most “AI” apps just scale volume. They don’t protect hard volume or shift structure when race season approaches.</p>
+ </div>
+ <div class="problem-card">
+ <h3>Expensive guesswork</h3>
+ <p>$200–400/month for a coach + multiple subscriptions — and still no daily adaptation to your actual sleep, HRV, and readiness.</p>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <section>
+ <div class="container">
+ <div class="section-label">The system</div>
+ <h2>Meet the 8 Pillars that replace guesswork</h2>
+ <p class="section-sub">Protected methodology engineered into daily decisions — not another generic template.</p>
+ <div class="pillars-grid">
+ <div class="pillar">
+ <div class="pillar-icon">📊</div>
+ <div class="pillar-num">01</div>
+ <h3>Load Index™</h3>
+ <p>Smarter fatigue tracking that combines volume + intensity into one clear number. See overload before it kills form.</p>
+ <div class="pillar-media">
+ <img src="screenshots/pillar-loadindex.jpg" alt="Load Index week view with volume and hard hours" loading="lazy">
+ </div>
+ </div>
+ <div class="pillar">
+ <div class="pillar-icon">⚡</div>
+ <div class="pillar-num">02</div>
+ <h3>Adaptive Volume Engine™</h3>
+ <p>Just enough hard work to improve — never enough to burn out. Hard volume capped intelligently every week.</p>
+ <div class="pillar-media">
+ <img src="screenshots/pillar-adaptive.jpg" alt="Coach Forge adapting tomorrow's intensity" loading="lazy">
+ </div>
+ </div>
+ <div class="pillar">
+ <div class="pillar-icon">💚</div>
+ <div class="pillar-num">03</div>
+ <h3>Recovery Intelligence™</h3>
+ <p>Daily session adjustments from sleep, HRV, readiness & resting HR. The plan flexes with your real body.</p>
+ <div class="pillar-media">
+ <img src="screenshots/pillar-recovery.jpg" alt="Readiness score and recovery metrics from live health data" loading="lazy">
+ </div>
+ </div>
+ <div class="pillar">
+ <div class="pillar-icon">🎯</div>
+ <div class="pillar-num">04</div>
+ <h3>ZoneLock™</h3>
+ <p>Every interval hits the exact physiological target from your personal power curve. No more “kind of hard”.</p>
+ <div class="pillar-media">
+ <img src="screenshots/pillar-zonelock.jpg" alt="Coach Setup power curve and ZoneLock training zones" loading="lazy">
+ </div>
+ </div>
+ <div class="pillar">
+ <div class="pillar-icon">🍽️</div>
+ <div class="pillar-num">05</div>
+ <h3>FuelSync™</h3>
+ <p>Daily calories & macros that match your actual training load and phase. No more under-fueling or guessing.</p>
+ <div class="pillar-media">
+ <img src="screenshots/pillar-fuelsync.jpg" alt="FuelSync daily calorie and macro targets" loading="lazy">
+ </div>
+ </div>
+ <div class="pillar">
+ <div class="pillar-icon">📅</div>
+ <div class="pillar-num">06</div>
+ <h3>ForgeBlocks™</h3>
+ <p>Training phases that automatically evolve with your race timeline. Base → Build → Race without the calendar chaos.</p>
+ </div>
+ </div>
+ <div class="pillars-grid bottom">
+ <div class="pillar">
+ <div class="pillar-icon">🏁</div>
+ <div class="pillar-num">07</div>
+ <h3>RacePhase™</h3>
+ <p>Automatic structure shift when race season approaches and precise A/B/C race tapers. Sharp when it matters.</p>
+ </div>
+ <div class="pillar">
+ <div class="pillar-icon">💪</div>
+ <div class="pillar-num">08</div>
+ <h3>StrengthSync™</h3>
+ <p>Strength that improves cycling power and durability — scheduled on the right days, adjusted with fatigue.</p>
+ </div>
+ </div>
+</div>
+ </div>
+ </section>
+
+ <section id="comparison">
+ <div class="container">
+ <div class="section-label">Why VeloForge wins</div>
+ <h2>One app that actually replaces the rest</h2>
+ <p class="section-sub">
+ Most cyclists still juggle a training app, a recovery wearable, a nutrition tracker, and a coach who only sees part of the picture. VeloForge owns the full loop — training structure, daily recovery intelligence, and fueling that matches your real load.
+ </p>
+
+ <div class="intro-box">
+ <p>
+ Traditional platforms give you a plan and a dashboard.<br>
+ Generic AI gives you answers that forget yesterday’s ride.<br>
+ <strong>VeloForge gives you a complete coaching system</strong> that already knows your power data, sleep, HRV, and race calendar — then adjusts training <em>and</em> fueling every day so you improve without digging holes.
+ </p>
+ </div>
+
+ <div class="compare-table-wrap">
+ <table class="compare">
+ <thead>
+ <tr>
+ <th>Capability</th>
+ <th class="vf">VeloForge</th>
+ <th>TrainerRoad</th>
+ <th>JOIN</th>
+ <th>Coach + Apps</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>Training phases that evolve with your race timeline</td>
+ <td class="vf"><span class="check">✓ ForgeBlocks™</span></td>
+ <td><span class="partial">Static / limited</span></td>
+ <td><span class="partial">Reshuffles library</span></td>
+ <td><span class="partial">Depends on coach</span></td>
+ </tr>
+ <tr>
+ <td>Hard-volume protection (just enough, never enough to burn out)</td>
+ <td class="vf"><span class="check">✓ Adaptive Volume Engine™</span></td>
+ <td><span class="cross">✗</span></td>
+ <td><span class="cross">✗</span></td>
+ <td><span class="partial">Manual</span></td>
+ </tr>
+ <tr>
+ <td>Daily adjustments from sleep + HRV + readiness</td>
+ <td class="vf"><span class="check">✓ Recovery Intelligence™</span></td>
+ <td><span class="partial">Limited</span></td>
+ <td><span class="partial">Limited</span></td>
+ <td><span class="partial">If coach looks</span></td>
+ </tr>
+ <tr>
+ <td>Every interval hits the exact physiological target</td>
+ <td class="vf"><span class="check">✓ ZoneLock™</span></td>
+ <td><span class="partial">FTP-based</span></td>
+ <td><span class="partial">Library</span></td>
+ <td><span class="partial">Varies</span></td>
+ </tr>
+ <tr>
+ <td>Automatic structure shift when race season approaches</td>
+ <td class="vf"><span class="check">✓ RacePhase™</span></td>
+ <td><span class="cross">✗</span></td>
+ <td><span class="cross">✗</span></td>
+ <td><span class="partial">Manual</span></td>
+ </tr>
+ <tr>
+ <td><strong>Fueling that automatically matches your training load</strong></td>
+ <td class="vf"><span class="check">✓ FuelSync™</span></td>
+ <td><span class="cross">✗</span></td>
+ <td><span class="cross">✗</span></td>
+ <td><span class="partial">Extra cost / ignored</span></td>
+ </tr>
+ <tr>
+ <td>Strength training that improves cycling, not interferes</td>
+ <td class="vf"><span class="check">✓ StrengthSync™</span></td>
+ <td><span class="cross">✗</span></td>
+ <td><span class="cross">✗</span></td>
+ <td><span class="partial">Extra cost</span></td>
+ </tr>
+ <tr>
+ <td>Apple Health recovery live · Garmin &amp; WHOOP coming soon</td>
+ <td class="vf"><span class="check">✓</span></td>
+ <td><span class="partial">Partial</span></td>
+ <td><span class="partial">Partial</span></td>
+ <td><span class="partial">Fragmented</span></td>
+ </tr>
+ <tr>
+ <td>One subscription replaces coach + nutritionist + 3–5 apps</td>
+ <td class="vf"><span class="check">✓</span></td>
+ <td><span class="cross">✗</span></td>
+ <td><span class="cross">✗</span></td>
+ <td><span class="cross">$200–400/mo</span></td>
+ </tr>
+ <tr>
+ <td>AI that reasons with a complete coaching system</td>
+ <td class="vf"><span class="check">✓</span></td>
+ <td><span class="cross">Algorithm only</span></td>
+ <td><span class="cross">Rules only</span></td>
+ <td><span class="partial">Human (expensive)</span></td>
+ </tr>
+ </tbody>
+ </table>
+ </div>
+
+ <div class="vs-grid">
+ <div class="vs-card">
+ <h3>VeloForge <span class="vs">vs</span> TrainerRoad</h3>
+ <p class="tagline">A strong structured-plan engine vs a complete coaching system that also owns recovery and fueling.</p>
+ <div class="diff">
+ <div class="vs-side">
+ <h4>TrainerRoad</h4>
+ <ul>
+ <li>Excellent workout library and progression levels</li>
+ <li>Adapts mainly from completed intervals</li>
+ <li>Limited live recovery intelligence</li>
+ <li>No native fueling guidance</li>
+ <li>You still decide rest days and race timing</li>
+ </ul>
+ </div>
+ <div class="vs-side vf">
+ <h4>VeloForge</h4>
+ <ul>
+ <li>Phases that automatically evolve with your race calendar</li>
+ <li>Recovery Intelligence™ reads sleep, HRV, and readiness every morning</li>
+ <li>Hard-volume protection so you never dig a hole</li>
+ <li>FuelSync™ matches calories and macros to actual load</li>
+ <li>RacePhase™ shifts structure when it matters most</li>
+ </ul>
+ </div>
+ </div>
+ </div>
+
+ <div class="vs-card">
+ <h3>VeloForge <span class="vs">vs</span> JOIN</h3>
+ <p class="tagline">A smart calendar that reshuffles workouts vs an AI coach that owns training, recovery, and fueling.</p>
+ <div class="diff">
+ <div class="vs-side">
+ <h4>JOIN</h4>
+ <ul>
+ <li>Hands-off plan reshuffling from a fixed library</li>
+ <li>Light on deep physiological reasoning</li>
+ <li>Minimal recovery or fueling coaching</li>
+ <li>You still manage the bigger picture</li>
+ </ul>
+ </div>
+ <div class="vs-side vf">
+ <h4>VeloForge</h4>
+ <ul>
+ <li>ForgeBlocks™ evolve with your exact race timeline</li>
+ <li>ZoneLock™ targets your real power profile</li>
+ <li>Load Index™ + Adaptive Volume Engine™ prevent burnout</li>
+ <li>FuelSync™ + StrengthSync™ stay in lockstep with training</li>
+ <li>One system that thinks like a top coach</li>
+ </ul>
+ </div>
+ </div>
+ </div>
+
+ <div class="vs-card">
+ <h3>VeloForge <span class="vs">vs</span> Coach + TrainingPeaks + WHOOP + Nutritionist</h3>
+ <p class="tagline">$200–400/month of fragmented tools and delayed feedback vs one AI that already has all the data.</p>
+ <div class="diff">
+ <div class="vs-side">
+ <h4>The old stack</h4>
+ <ul>
+ <li>Coach updates the plan once or twice a week</li>
+ <li>You still switch between 4–5 apps daily</li>
+ <li>Recovery data rarely drives real-time changes</li>
+ <li>Fueling is often an afterthought or extra cost</li>
+ <li>Quality depends entirely on the individual coach</li>
+ </ul>
+ </div>
+ <div class="vs-side vf">
+ <h4>VeloForge</h4>
+ <ul>
+ <li>Daily adjustments from live training + recovery data (Strava / Wahoo + Apple Health; Garmin &amp; WHOOP coming soon)</li>
+ <li>Single source of truth — training, recovery, fueling, strength</li>
+ <li>FuelSync™ automatically matches intake to workload</li>
+ <li>Founding price locked for life</li>
+ <li>Scales to every athlete without coach bandwidth limits</li>
+ </ul>
+ </div>
+ </div>
+ </div>
+
+ <div class="vs-card">
+ <h3>VeloForge <span class="vs">vs</span> ChatGPT / Claude</h3>
+ <p class="tagline">A powerful generalist that only works if you already know the right questions — vs a specialist that already knows the system.</p>
+ <div class="diff">
+ <div class="vs-side">
+ <h4>Generic AI</h4>
+ <ul>
+ <li>You have to know what to ask in the first place</li>
+ <li>You must re-explain context and history every time</li>
+ <li>No live connection to WHOOP, Garmin, or power files</li>
+ <li>No enforced hard-volume or recovery rules</li>
+ <li>Like a coding agent: great in expert hands, limited for everyone else</li>
+ </ul>
+ </div>
+ <div class="vs-side vf">
+ <h4>VeloForge</h4>
+ <ul>
+ <li>Already connected to your devices and full history</li>
+ <li>Runs the complete coaching system for you — no prompting required</li>
+ <li>Non-negotiable rules protect you from overreaching</li>
+ <li>Recovery Intelligence™ + FuelSync™ run automatically every day</li>
+ <li>Built so any serious cyclist gets elite-level guidance without needing to be an expert</li>
+ </ul>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <section>
+ <div class="container">
+ <div class="section-label">How it works</div>
+ <h2>How VeloForge actually coaches you</h2>
+ <div class="steps">
+ <div class="step">
+ <div class="step-num">1</div>
+ <h3>Connect your data once</h3>
+ <p>Connect Strava and/or Wahoo for rides, Apple Health for recovery. File import as backup. Garmin and WHOOP are coming soon.</p>
+ </div>
+ <div class="step">
+ <div class="step-num">2</div>
+ <h3>The system builds your plan</h3>
+ <p>Phases evolve with your race calendar. Hard volume is protected. Fueling and strength stay locked to the work.</p>
+ </div>
+ <div class="step">
+ <div class="step-num">3</div>
+ <h3>Daily adaptation</h3>
+ <p>Every morning Recovery Intelligence adjusts the day. FuelSync tells you exactly what to eat. You just show up.</p>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <section>
+ <div class="container">
+ <div class="section-label">Results</div>
+ <h2>Built for the athletes who already take this seriously</h2>
+ <div class="benefits-grid">
+ <div class="benefit">
+ <div class="stat">+12–30W</div>
+ <div class="label">Typical FTP gains in first 12 weeks</div>
+ </div>
+ <div class="benefit">
+ <div class="stat">≤3 hrs</div>
+ <div class="label">Hard volume cap (science, not ego)</div>
+ </div>
+ <div class="benefit">
+ <div class="stat">1 app</div>
+ <div class="label">Replaces 3–5 tools + human coach</div>
+ </div>
+ <div class="benefit">
+ <div class="stat">Daily</div>
+ <div class="label">Adaptation to real recovery data</div>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <section id="waitlist">
+ <div class="container">
+ <div class="waitlist-box">
+ <div class="section-label" style="margin-bottom: 12px;">Founding Waitlist</div>
+ <h2>Join the Founding Waitlist</h2>
+ <p>Be among the first 500 athletes. Lock in founding pricing for life, get priority access the moment we open, and help shape the exact features that matter to real racers.</p>
+ <ul class="benefits-list">
+ <li>Founding price locked for life — never pay the future public rate</li>
+ <li>Priority early access — first in when the doors open</li>
+ <li>Direct input channel — tell us what you need most</li>
+ <li>Exclusive starter templates the moment you join</li>
+ <li>Founding Athlete badge inside the app forever</li>
+ </ul>
+ <a href="https://docs.google.com/forms/d/e/1FAIpQLScqWY0Brh7iXmLG-UkEqmZMOeHQkSBuGaq2SojjIwQRI_PypA/viewform" class="btn-primary" style="display: inline-flex;">Reserve My Founding Spot →</a>
+ <p class="form-note">No spam. No credit card. We’ll only email when it matters.</p>
+ </div>
+ </div>
+ </section>
+
+ <section>
+ <div class="container">
+ <div class="section-label">FAQ</div>
+ <h2>Questions</h2>
+ <div class="faq-item">
+ <div class="faq-q">Is this just another TrainingPeaks or TrainerRoad clone?</div>
+ <div class="faq-a">No. Those tools are excellent for logging and structured workouts. VeloForge is a full coaching system: adaptive phases, daily recovery intelligence, FuelSync nutrition, StrengthSync, and an AI coach that actually runs the complete loop. One app replaces the stack.</div>
+ </div>
+ <div class="faq-item">
+ <div class="faq-q">What devices does it work with?</div>
+ <div class="faq-a">Live today: Strava, Wahoo, Apple Health, and file import. Intervals.icu in progress. Garmin and WHOOP are coming soon. The system turns the data you already generate into daily coaching decisions.</div>
+ </div>
+ <div class="faq-item">
+ <div class="faq-q">Who is this for?</div>
+ <div class="faq-a">Serious amateurs and competitive cyclists who already train with structure (or want to). Beginners get deep base building. Intermediate & Advanced get the full adaptive system with automatic race-season shifts. Age and recovery are factored in automatically.</div>
+ </div>
+ <div class="faq-item">
+ <div class="faq-q">When does it launch?</div>
+ <div class="faq-a">Founding members get access first. We’re building in public with the waitlist so the product is exactly what racers need. You’ll be notified the moment your group is ready.</div>
+ </div>
+ </div>
+ </section>
+
+ <div class="final-cta">
+ <div class="container">
+ <h2>Stop managing apps. Start getting coached.</h2>
+ <p>Founding spots limited. Price locked for life.</p>
+ <a href="https://docs.google.com/forms/d/e/1FAIpQLScqWY0Brh7iXmLG-UkEqmZMOeHQkSBuGaq2SojjIwQRI_PypA/viewform" class="btn-primary">Claim Founding Spot →</a>
+ </div>
+ </div>
+
+ <footer>
+ <div class="container">
+ © VeloForge · Built for serious cyclists · One app to rule them all
+ </div>
+ </footer>
+</body>
+</html>
